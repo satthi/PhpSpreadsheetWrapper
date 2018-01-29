@@ -1,16 +1,16 @@
-# PhpExcelWrapper
+# PhpShreadsheetWrapper
 
 [![Build Status](https://travis-ci.org/satthi/PhpExcelWrapper.svg?branch=master)](https://travis-ci.org/satthi/PhpExcelWrapper)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satthi/PhpExcelWrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satthi/PhpExcelWrapper/?branch=master)
 
-このプロジェクトは[PHPExcel](https://github.com/PHPOffice/PHPExcel)を自分が使いやすいように対応したものになります。
+このプロジェクトは[PhpSpreadsheet](https://github.com/PHPOffice/PhpSpreadsheet)を自分が使いやすいように対応したものになります。
 
 ## インストール
 composer.json
 ```
 {
 	"require": {
-		"satthi/phpexcelwrapper": "*"
+		"satthi/phpspreadsheetwrapper": "*"
 	}
 }
 ```
@@ -22,16 +22,16 @@ composer.json
 ```php
 <?php
 require('./vendor/autoload.php');
-use PhpExcelWrapper\PhpExcelWrapper;
+use PhpShreadsheetWrapper\PhpShreadsheetWrapper;
 
 class hoge{
 
     public function fuga(){
-        $PhpExcelWrapper = new PhpExcelWrapper();
+        $PhpShreadsheetWrapper = new PhpShreadsheetWrapper();
         //テンプレート使用の場合
-        //$PhpExcelWrapper = new PhpExcelWrapper('./template.xlsx');
-        $PhpExcelWrapper->setVal('設定したい値', 3, 1, 0);
-        $PhpExcelWrapper->write('export.xlsx');
+        //$PhpShreadsheetWrapper = new PhpShreadsheetWrapper('./template.xlsx');
+        $PhpShreadsheetWrapper->setVal('設定したい値', 3, 1, 0);
+        $PhpShreadsheetWrapper->write('export.xlsx');
     }
 }
 
@@ -46,7 +46,7 @@ $hoge->fuga();
 * setVal
 * 値のセット
 * @param text $value 値
-* @param integer $col 行 一番左は0
+* @param integer $col 行 一番左は1
 * @param integer $row 列 一番上は1
 * @param integer $sheetNo シート番号 default 0
 * @param integer $refCol 参照セル行 default null
@@ -54,17 +54,17 @@ $hoge->fuga();
 * @param integer $refSheet 参照シート default null
 * @author hagiwara
 */
-$PhpExcelWrapper->setVal('設定したい値', 3, 1, 0);
+$PhpShreadsheetWrapper->setVal('設定したい値', 3, 1, 0);
 
 /**
 * geVal
 * 値の取得
-* @param integer $col 行 一番左は0
+* @param integer $col 行 一番左は1
 * @param integer $row 列 一番上は1
 * @param integer $sheetNo シート番号 default 0
 * @author hagiwara
 */
-$PhpExcelWrapper->getVal(3, 1, 0);
+$PhpShreadsheetWrapper->getVal(3, 1, 0);
 
 /**
 * setImage
@@ -80,7 +80,7 @@ $PhpExcelWrapper->getVal(3, 1, 0);
 * @param integer $offsety セルから何ピクセルずらすか（Y軸) default null
 * @author hagiwara
 */
-$PhpExcelWrapper->setImage('img/hoge.gif', 1, 1, 0);
+$PhpShreadsheetWrapper->setImage('img/hoge.gif', 1, 1, 0);
 
 /**
 * cellMerge
@@ -92,7 +92,7 @@ $PhpExcelWrapper->setImage('img/hoge.gif', 1, 1, 0);
 * @param integer $sheetNo シート番号
 * @author hagiwara
 */
-$PhpExcelWrapper->cellMerge(0, 1, 0, 3, 0);
+$PhpShreadsheetWrapper->cellMerge(1, 1, 1, 3, 0);
 
 /**
 * styleCopy
@@ -105,7 +105,7 @@ $PhpExcelWrapper->cellMerge(0, 1, 0, 3, 0);
 * @param integer $refSheet 参照シート
 * @author hagiwara
 */
-$PhpExcelWrapper->cellMerge(0, 1, 0, 0, 1, 1);
+$PhpShreadsheetWrapper->cellMerge(1, 1, 0, 1, 1, 1);
 
 /**
 * setStyle
@@ -121,35 +121,36 @@ $style = [
     'font' => 'HGP行書体',
     /*
     //underline パラメータリスト
-    'double' => PHPExcel_Style_Font::UNDERLINE_DOUBLE
-    'doubleaccounting' => PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING
-    'none' => PHPExcel_Style_Font::UNDERLINE_NONE
-    'single' => PHPExcel_Style_Font::UNDERLINE_SINGLE
-    'singleaccounting' => PHPExcel_Style_Font::UNDERLINE_SINGLEACCOUNTING
+    'double' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_DOUBLE
+    'doubleaccounting' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_DOUBLEACCOUNTING
+    'none' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_NONE
+    'single' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_SINGLE
+    'singleaccounting' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_SINGLEACCOUNTING
     */
     'underline' => 'single',
     'bold' => true,
     'italic' => true,
-    'strikethrough' => true,
+    // 現状打消し線がうまく動作していない
+    // 'strikethrough' => true,
     //ARGB
     'color' => 'FFFF0000',
     'size' => 40,
     /*
     //alignh パラメータリスト
-    'general' => PHPExcel_Style_Alignment::HORIZONTAL_GENERAL,
-    'center' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-    'left' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
-    'right' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
-    'justify' => PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY,
-    'countinuous' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER_CONTINUOUS,
+    'general' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_GENERAL,
+    'center' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+    'left' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+    'right' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+    'justify' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY,
+    'countinuous' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER_CONTINUOUS,
     */
     'alignh' => 'justify',
     /*
     //alignv パラメータリスト
-    'bottom' => PHPExcel_Style_Alignment::VERTICAL_BOTTOM,
-    'center' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-    'justify' => PHPExcel_Style_Alignment::VERTICAL_JUSTIFY,
-    'top' => PHPExcel_Style_Alignment::VERTICAL_TOP,
+    'bottom' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_BOTTOM,
+    'center' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+    'justify' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_JUSTIFY,
+    'top' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
     */
     'alignv' => 'bottom',
     /*
@@ -166,20 +167,20 @@ $style = [
     'horizontal' => null,
 
     //罫線の種類
-    'none' => PHPExcel_Style_Border::BORDER_NONE,
-    'thin' => PHPExcel_Style_Border::BORDER_THIN,
-    'medium' => PHPExcel_Style_Border::BORDER_MEDIUM,
-    'dashed' => PHPExcel_Style_Border::BORDER_DASHED,
-    'dotted' => PHPExcel_Style_Border::BORDER_DOTTED,
-    'thick' => PHPExcel_Style_Border::BORDER_THICK,
-    'double' => PHPExcel_Style_Border::BORDER_DOUBLE,
-    'hair' => PHPExcel_Style_Border::BORDER_HAIR,
-    'mediumdashed' => PHPExcel_Style_Border::BORDER_MEDIUMDASHED,
-    'dashdot' => PHPExcel_Style_Border::BORDER_DASHDOT,
-    'mediumdashdot' => PHPExcel_Style_Border::BORDER_MEDIUMDASHDOT,
-    'dashdotdot' => PHPExcel_Style_Border::BORDER_DASHDOTDOT,
-    'mediumdashdotdot' => PHPExcel_Style_Border::BORDER_MEDIUMDASHDOTDOT,
-    'slantdashdot' => PHPExcel_Style_Border::BORDER_SLANTDASHDOT,
+    'none' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_NONE,
+    'thin' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+    'medium' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUM,
+    'dashed' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_DASHED,
+    'dotted' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_DOTTED,
+    'thick' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+    'double' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_DOUBLE,
+    'hair' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_HAIR,
+    'mediumdashed' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUMDASHED,
+    'dashdot' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_DASHDOT,
+    'mediumdashdot' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUMDASHDOT,
+    'dashdotdot' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_DASHDOTDOT,
+    'mediumdashdotdot' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUMDASHDOTDOT,
+    'slantdashdot' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_SLANTDASHDOT,
     */
     'border' => [
         'top' => [
@@ -194,31 +195,31 @@ $style = [
     'bgcolor' => 'FF0000FF',
     /*
     //bgpattern パラメータリスト
-    'linear' => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
-    'path' => PHPExcel_Style_Fill::FILL_GRADIENT_PATH,
-    'none' => PHPExcel_Style_Fill::FILL_NONE,
-    'darkdown' => PHPExcel_Style_Fill::FILL_PATTERN_DARKDOWN,
-    'darkgray' => PHPExcel_Style_Fill::FILL_PATTERN_DARKGRAY,
-    'darkgrid' => PHPExcel_Style_Fill::FILL_PATTERN_DARKGRID,
-    'darkhorizontal' => PHPExcel_Style_Fill::FILL_PATTERN_DARKHORIZONTAL,
-    'darktrellis' => PHPExcel_Style_Fill::FILL_PATTERN_DARKTRELLIS,
-    'darkup' => PHPExcel_Style_Fill::FILL_PATTERN_DARKUP,
-    'darkvertical' => PHPExcel_Style_Fill::FILL_PATTERN_DARKVERTICAL,
-    'gray0625' => PHPExcel_Style_Fill::FILL_PATTERN_GRAY0625,
-    'gray125' => PHPExcel_Style_Fill::FILL_PATTERN_GRAY125,
-    'lightdown' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTDOWN,
-    'lightgray' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTGRAY,
-    'lightgrid' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTGRID,
-    'lighthorizontal' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTHORIZONTAL,
-    'lighttrellis' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTTRELLIS,
-    'lightup' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTUP,
-    'lightvertical' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTVERTICAL,
-    'mediumgray' => PHPExcel_Style_Fill::FILL_PATTERN_MEDIUMGRAY,
-    'solid' => PHPExcel_Style_Fill::FILL_SOLID,
+    'linear' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
+    'path' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_PATH,
+    'none' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE,
+    'darkdown' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_DARKDOWN,
+    'darkgray' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_DARKGRAY,
+    'darkgrid' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_DARKGRID,
+    'darkhorizontal' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_DARKHORIZONTAL,
+    'darktrellis' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_DARKTRELLIS,
+    'darkup' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_DARKUP,
+    'darkvertical' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_DARKVERTICAL,
+    'gray0625' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_GRAY0625,
+    'gray125' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_GRAY125,
+    'lightdown' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_LIGHTDOWN,
+    'lightgray' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_LIGHTGRAY,
+    'lightgrid' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_LIGHTGRID,
+    'lighthorizontal' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_LIGHTHORIZONTAL,
+    'lighttrellis' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_LIGHTTRELLIS,
+    'lightup' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_LIGHTUP,
+    'lightvertical' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_LIGHTVERTICAL,
+    'mediumgray' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_PATTERN_MEDIUMGRAY,
+    'solid' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
     */
     'bgpattern' => 'lighthorizontal',
 ];
-$PhpExcelWrapper->setStyle(3, 1, 0, $style);
+$PhpShreadsheetWrapper->setStyle(3, 1, 0, $style);
 
 /**
 * createSheet
@@ -226,7 +227,7 @@ $PhpExcelWrapper->setStyle(3, 1, 0, $style);
 * @param text $name
 * @author hagiwara
 */
-$PhpExcelWrapper->createSheet('hoge');
+$PhpShreadsheetWrapper->createSheet('hoge');
 
 /**
 * deleteSheet
@@ -234,7 +235,7 @@ $PhpExcelWrapper->createSheet('hoge');
 * @param integer $sheetNo
 * @author hagiwara
 */
-$PhpExcelWrapper->deleteSheet(4);
+$PhpShreadsheetWrapper->deleteSheet(4);
 
 /**
 * copySheet
@@ -244,7 +245,7 @@ $PhpExcelWrapper->deleteSheet(4);
 * @param text $name
 * @author hagiwara
 */
-$PhpExcelWrapper->copySheet(0, null, 'copy sheet');
+$PhpShreadsheetWrapper->copySheet(0, null, 'copy sheet');
 
 /**
 * renameSheet
@@ -253,7 +254,7 @@ $PhpExcelWrapper->copySheet(0, null, 'copy sheet');
 * @param text $name
 * @author hagiwara
 */
-$PhpExcelWrapper->renameSheet(0, 'rename');
+$PhpShreadsheetWrapper->renameSheet(0, 'rename');
 
 /**
 * write
@@ -261,7 +262,7 @@ $PhpExcelWrapper->renameSheet(0, 'rename');
 * @param text $file 書き込み先のファイルパス
 * @author hagiwara
 */
-$PhpExcelWrapper->write('php://output');
+$PhpShreadsheetWrapper->write('php://output');
 ```
 
 
@@ -271,7 +272,7 @@ $PhpExcelWrapper->write('php://output');
 
 The MIT Lisence
 
-Copyright (c) 2016 Fusic Co., Ltd. (http://fusic.co.jp)
+Copyright (c) 2018 Fusic Co., Ltd. (http://fusic.co.jp)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,88 +1,89 @@
 <?php
 
-namespace PhpExcelWrapper;
+namespace PhpSpreadsheetWrapper;
 
-use \PHPExcel;
-use \PHPExcel_IOFactory;
-use \PHPExcel_Cell;
-use \PHPExcel_Worksheet_Drawing;
-use \PHPExcel_Style_Font;
-use \PHPExcel_Style_Border;
-use \PHPExcel_Style_Alignment;
-use \PHPExcel_Style_Fill;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 /**
-* PhpExcelWrapper
-* PHPExcelを記載しやすくするためのラッパー
+* PhpSpreadsheetWrapper
+* Spreadsheetを記載しやすくするためのラッパー
 */
-class PhpExcelWrapper
+class PhpSpreadsheetWrapper
 {
     private $__phpexcel;
     private $__sheet = [];
     private $__deleteSheetList = [];
     private static $__underlineType = [
-        'double' => PHPExcel_Style_Font::UNDERLINE_DOUBLE,
-        'doubleaccounting' => PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING,
-        'none' => PHPExcel_Style_Font::UNDERLINE_NONE,
-        'single' => PHPExcel_Style_Font::UNDERLINE_SINGLE,
-        'singleaccounting' => PHPExcel_Style_Font::UNDERLINE_SINGLEACCOUNTING,
+        'double' => Font::UNDERLINE_DOUBLE,
+        'doubleaccounting' => Font::UNDERLINE_DOUBLEACCOUNTING,
+        'none' => Font::UNDERLINE_NONE,
+        'single' => Font::UNDERLINE_SINGLE,
+        'singleaccounting' => Font::UNDERLINE_SINGLEACCOUNTING,
     ];
 
     private static $__borderType = [
-        'none' => PHPExcel_Style_Border::BORDER_NONE,
-        'thin' => PHPExcel_Style_Border::BORDER_THIN,
-        'medium' => PHPExcel_Style_Border::BORDER_MEDIUM,
-        'dashed' => PHPExcel_Style_Border::BORDER_DASHED,
-        'dotted' => PHPExcel_Style_Border::BORDER_DOTTED,
-        'thick' => PHPExcel_Style_Border::BORDER_THICK,
-        'double' => PHPExcel_Style_Border::BORDER_DOUBLE,
-        'hair' => PHPExcel_Style_Border::BORDER_HAIR,
-        'mediumdashed' => PHPExcel_Style_Border::BORDER_MEDIUMDASHED,
-        'dashdot' => PHPExcel_Style_Border::BORDER_DASHDOT,
-        'mediumdashdot' => PHPExcel_Style_Border::BORDER_MEDIUMDASHDOT,
-        'dashdotdot' => PHPExcel_Style_Border::BORDER_DASHDOTDOT,
-        'mediumdashdotdot' => PHPExcel_Style_Border::BORDER_MEDIUMDASHDOTDOT,
-        'slantdashdot' => PHPExcel_Style_Border::BORDER_SLANTDASHDOT,
+        'none' => Border::BORDER_NONE,
+        'thin' => Border::BORDER_THIN,
+        'medium' => Border::BORDER_MEDIUM,
+        'dashed' => Border::BORDER_DASHED,
+        'dotted' => Border::BORDER_DOTTED,
+        'thick' => Border::BORDER_THICK,
+        'double' => Border::BORDER_DOUBLE,
+        'hair' => Border::BORDER_HAIR,
+        'mediumdashed' => Border::BORDER_MEDIUMDASHED,
+        'dashdot' => Border::BORDER_DASHDOT,
+        'mediumdashdot' => Border::BORDER_MEDIUMDASHDOT,
+        'dashdotdot' => Border::BORDER_DASHDOTDOT,
+        'mediumdashdotdot' => Border::BORDER_MEDIUMDASHDOTDOT,
+        'slantdashdot' => Border::BORDER_SLANTDASHDOT,
     ];
 
     private static $__alignHolizonalType = [
-        'general' => PHPExcel_Style_Alignment::HORIZONTAL_GENERAL,
-        'center' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        'left' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
-        'right' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
-        'justify' => PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY,
-        'countinuous' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER_CONTINUOUS,
+        'general' => Alignment::HORIZONTAL_GENERAL,
+        'center' => Alignment::HORIZONTAL_CENTER,
+        'left' => Alignment::HORIZONTAL_LEFT,
+        'right' => Alignment::HORIZONTAL_RIGHT,
+        'justify' => Alignment::HORIZONTAL_JUSTIFY,
+        'countinuous' => Alignment::HORIZONTAL_CENTER_CONTINUOUS,
     ];
 
     private static $__alignVerticalType = [
-        'bottom' => PHPExcel_Style_Alignment::VERTICAL_BOTTOM,
-        'center' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-        'justify' => PHPExcel_Style_Alignment::VERTICAL_JUSTIFY,
-        'top' => PHPExcel_Style_Alignment::VERTICAL_TOP,
+        'bottom' => Alignment::VERTICAL_BOTTOM,
+        'center' => Alignment::VERTICAL_CENTER,
+        'justify' => Alignment::VERTICAL_JUSTIFY,
+        'top' => Alignment::VERTICAL_TOP,
     ];
 
     private static $__fillType = [
-        'linear' => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
-        'path' => PHPExcel_Style_Fill::FILL_GRADIENT_PATH,
-        'none' => PHPExcel_Style_Fill::FILL_NONE,
-        'darkdown' => PHPExcel_Style_Fill::FILL_PATTERN_DARKDOWN,
-        'darkgray' => PHPExcel_Style_Fill::FILL_PATTERN_DARKGRAY,
-        'darkgrid' => PHPExcel_Style_Fill::FILL_PATTERN_DARKGRID,
-        'darkhorizontal' => PHPExcel_Style_Fill::FILL_PATTERN_DARKHORIZONTAL,
-        'darktrellis' => PHPExcel_Style_Fill::FILL_PATTERN_DARKTRELLIS,
-        'darkup' => PHPExcel_Style_Fill::FILL_PATTERN_DARKUP,
-        'darkvertical' => PHPExcel_Style_Fill::FILL_PATTERN_DARKVERTICAL,
-        'gray0625' => PHPExcel_Style_Fill::FILL_PATTERN_GRAY0625,
-        'gray125' => PHPExcel_Style_Fill::FILL_PATTERN_GRAY125,
-        'lightdown' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTDOWN,
-        'lightgray' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTGRAY,
-        'lightgrid' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTGRID,
-        'lighthorizontal' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTHORIZONTAL,
-        'lighttrellis' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTTRELLIS,
-        'lightup' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTUP,
-        'lightvertical' => PHPExcel_Style_Fill::FILL_PATTERN_LIGHTVERTICAL,
-        'mediumgray' => PHPExcel_Style_Fill::FILL_PATTERN_MEDIUMGRAY,
-        'solid' => PHPExcel_Style_Fill::FILL_SOLID,
+        'linear' => Fill::FILL_GRADIENT_LINEAR,
+        'path' => Fill::FILL_GRADIENT_PATH,
+        'none' => Fill::FILL_NONE,
+        'darkdown' => Fill::FILL_PATTERN_DARKDOWN,
+        'darkgray' => Fill::FILL_PATTERN_DARKGRAY,
+        'darkgrid' => Fill::FILL_PATTERN_DARKGRID,
+        'darkhorizontal' => Fill::FILL_PATTERN_DARKHORIZONTAL,
+        'darktrellis' => Fill::FILL_PATTERN_DARKTRELLIS,
+        'darkup' => Fill::FILL_PATTERN_DARKUP,
+        'darkvertical' => Fill::FILL_PATTERN_DARKVERTICAL,
+        'gray0625' => Fill::FILL_PATTERN_GRAY0625,
+        'gray125' => Fill::FILL_PATTERN_GRAY125,
+        'lightdown' => Fill::FILL_PATTERN_LIGHTDOWN,
+        'lightgray' => Fill::FILL_PATTERN_LIGHTGRAY,
+        'lightgrid' => Fill::FILL_PATTERN_LIGHTGRID,
+        'lighthorizontal' => Fill::FILL_PATTERN_LIGHTHORIZONTAL,
+        'lighttrellis' => Fill::FILL_PATTERN_LIGHTTRELLIS,
+        'lightup' => Fill::FILL_PATTERN_LIGHTUP,
+        'lightvertical' => Fill::FILL_PATTERN_LIGHTVERTICAL,
+        'mediumgray' => Fill::FILL_PATTERN_MEDIUMGRAY,
+        'solid' => Fill::FILL_SOLID,
     ];
 
     /**
@@ -91,14 +92,14 @@ class PhpExcelWrapper
     * @param string $template テンプレートファイルのパス
     * @author hagiwara
     */
-    public function __construct($template = null, $type = 'Excel2007')
+    public function __construct($template = null, $type = 'Xlsx')
     {
         if ($template === null) {
             //テンプレート無し
-            $this->__phpexcel = new PHPExcel();
+            $this->__phpexcel = new Spreadsheet();
         } else {
             //テンプレートの読み込み
-            $reader = PHPExcel_IOFactory::createReader($type);
+            $reader = IOFactory::createReader($type);
             $this->__phpexcel = $reader->load($template);
         }
     }
@@ -160,7 +161,7 @@ class PhpExcelWrapper
     {
         $cellInfo = $this->cellInfo($col, $row);
 
-        $objDrawing = new PHPExcel_Worksheet_Drawing();//画像用のオプジェクト作成
+        $objDrawing = new Drawing();//画像用のオプジェクト作成
         $objDrawing->setPath($img);//貼り付ける画像のパスを指定
         $objDrawing->setCoordinates($cellInfo);//位置
         if (!is_null($proportial)) {
@@ -306,7 +307,7 @@ class PhpExcelWrapper
         if (array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
-        return PHPExcel_Style_Border::UNDERLINE_NONE;
+        return Border::UNDERLINE_NONE;
     }
 
     /**
@@ -357,6 +358,10 @@ class PhpExcelWrapper
         if (is_null($strikethrough)) {
             return;
         }
+        var_dump($col);
+        var_dump($row);
+        var_dump($sheetNo);
+        var_dump($strikethrough);
         $this->getFont($col, $row, $sheetNo)->setStrikethrough($strikethrough);
     }
 
@@ -530,7 +535,7 @@ class PhpExcelWrapper
         if (array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
-        return PHPExcel_Style_Border::BORDER_NONE;
+        return Border::BORDER_NONE;
     }
 
     /**
@@ -545,7 +550,7 @@ class PhpExcelWrapper
         if (array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
-        return PHPExcel_Style_Alignment::HORIZONTAL_GENERAL;
+        return Alignment::HORIZONTAL_GENERAL;
     }
 
     /**
@@ -575,7 +580,7 @@ class PhpExcelWrapper
         if (array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
-        return PHPExcel_Style_Fill::FILL_SOLID;
+        return Fill::FILL_SOLID;
     }
 
     /**
@@ -645,19 +650,19 @@ class PhpExcelWrapper
     * @param string $file 書き込み先のファイルパス
     * @author hagiwara
     */
-    public function write($file, $type = 'Excel2007')
+    public function write($file, $type = 'Xlsx')
     {
         //書き込み前に削除シートを削除する
         foreach ($this->__deleteSheetList as $deleteSheet) {
             $this->__phpexcel->removeSheetByIndex($deleteSheet);
         }
-        $writer = PHPExcel_IOFactory::createWriter($this->__phpexcel, $type);
+        $writer = IOFactory::createWriter($this->__phpexcel, $type);
         $writer->save($file);
     }
 
     /**
     * getReader
-    * readerを返す(※直接PHPExcelの関数を実行できるように)
+    * readerを返す(※直接Spreadsheetの関数を実行できるように)
     * @author hagiwara
     */
     public function getReader()
@@ -670,7 +675,7 @@ class PhpExcelWrapper
     * シート情報の読み込み
     * @param integer $sheetNo シート番号
     * @author hagiwara
-    * @return null|\PHPExcel_Worksheet
+    * @return null|\Spreadsheet_Worksheet
     */
     private function getSheet($sheetNo)
     {
@@ -689,7 +694,7 @@ class PhpExcelWrapper
     */
     private function cellInfo($col, $row)
     {
-        $stringCol = PHPExcel_Cell::stringFromColumnIndex($col);
+        $stringCol = Coordinate::stringFromColumnIndex($col);
         return $stringCol . $row;
     }
 

@@ -1,9 +1,9 @@
 {
-	"name": "satthi/phpexcelwrapper",
-	"description": "PhpExcelWrapper",
+	"name": "satthi/phpspreadsheetwrapper",
+	"description": "PhpSpreadsheetWrapper",
 	"type": "php",
-	"keywords": ["php", "phpexcel"],
-	"homepage": "https://github.com/satthi/PhpExcelWrapper",
+	"keywords": ["php", "phpspreadsheet"],
+	"homepage": "https://github.com/satthi/PhpSpreadsheetWrapper",
 	"license": "MIT",
 	"authors": [
 		{
@@ -12,23 +12,23 @@
 		}
 	],
 	"support": {
-		"source": "https://github.com/satthi/PhpExcelWrapper"
+		"source": "https://github.com/satthi/PhpSpreadsheetWrapper"
 	},
 	"require": {
 		"php": ">=5.4.0",
-		"phpoffice/phpexcel": "~1.8.1"
+		"phpoffice/phpspreadsheet": "*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*"
 	},
 	"autoload": {
 		"psr-4": {
-			"PhpExcelWrapper\\": "src"
+			"PhpSpreadsheetWrapper\\": "src"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"PhpExcelWrapper\\Test\\": "tests"
+			"PhpSpreadsheetWrapper\\Test\\": "tests"
 		}
 	},
 	"suggest": {
