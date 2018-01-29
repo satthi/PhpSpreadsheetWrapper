@@ -1,0 +1,38 @@
+{
+	"name": "satthi/phpexcelwrapper",
+	"description": "PhpExcelWrapper",
+	"type": "php",
+	"keywords": ["php", "phpexcel"],
+	"homepage": "https://github.com/satthi/PhpExcelWrapper",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Satoru Hagiwara",
+			"role": "Author"
+		}
+	],
+	"support": {
+		"source": "https://github.com/satthi/PhpExcelWrapper"
+	},
+	"require": {
+		"php": ">=5.4.0",
+		"phpoffice/phpexcel": "~1.8.1"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"PhpExcelWrapper\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"PhpExcelWrapper\\Test\\": "tests"
+		}
+	},
+	"suggest": {
+	},
+	"extra": {
+	}
+}
