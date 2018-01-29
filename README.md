@@ -1,7 +1,7 @@
 # PhpShreadsheetWrapper
 
-[![Build Status](https://travis-ci.org/satthi/PhpExcelWrapper.svg?branch=master)](https://travis-ci.org/satthi/PhpExcelWrapper)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satthi/PhpExcelWrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satthi/PhpExcelWrapper/?branch=master)
+[![Build Status](https://travis-ci.org/satthi/PhpSpreadsheetWrapper.svg?branch=master)](https://travis-ci.org/satthi/PhpSpreadsheetWrapper)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satthi/PhpSpreadsheetWrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satthi/PhpSpreadsheetWrapper/?branch=master)
 
 このプロジェクトは[PhpSpreadsheet](https://github.com/PHPOffice/PhpSpreadsheet)を自分が使いやすいように対応したものになります。
 
