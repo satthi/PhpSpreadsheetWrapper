@@ -1,4 +1,4 @@
-# PhpShreadsheetWrapper
+# PhpSpreadsheetWrapper
 
 [![Build Status](https://travis-ci.org/satthi/PhpSpreadsheetWrapper.svg?branch=master)](https://travis-ci.org/satthi/PhpSpreadsheetWrapper)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satthi/PhpSpreadsheetWrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satthi/PhpSpreadsheetWrapper/?branch=master)
@@ -22,16 +22,16 @@ composer.json
 ```php
 <?php
 require('./vendor/autoload.php');
-use PhpShreadsheetWrapper\PhpShreadsheetWrapper;
+use PhpSpreadsheetWrapper\PhpSpreadsheetWrapper;
 
 class hoge{
 
     public function fuga(){
-        $PhpShreadsheetWrapper = new PhpShreadsheetWrapper();
+        $PhpSpreadsheetWrapper = new PhpSpreadsheetWrapper();
         //テンプレート使用の場合
-        //$PhpShreadsheetWrapper = new PhpShreadsheetWrapper('./template.xlsx');
-        $PhpShreadsheetWrapper->setVal('設定したい値', 3, 1, 0);
-        $PhpShreadsheetWrapper->write('export.xlsx');
+        //$PhpSpreadsheetWrapper = new PhpSpreadsheetWrapper('./template.xlsx');
+        $PhpSpreadsheetWrapper->setVal('設定したい値', 3, 1, 0);
+        $PhpSpreadsheetWrapper->write('export.xlsx');
     }
 }
 
@@ -54,7 +54,7 @@ $hoge->fuga();
 * @param integer $refSheet 参照シート default null
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->setVal('設定したい値', 3, 1, 0);
+$PhpSpreadsheetWrapper->setVal('設定したい値', 3, 1, 0);
 
 /**
 * geVal
@@ -64,7 +64,7 @@ $PhpShreadsheetWrapper->setVal('設定したい値', 3, 1, 0);
 * @param integer $sheetNo シート番号 default 0
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->getVal(3, 1, 0);
+$PhpSpreadsheetWrapper->getVal(3, 1, 0);
 
 /**
 * setImage
@@ -80,7 +80,7 @@ $PhpShreadsheetWrapper->getVal(3, 1, 0);
 * @param integer $offsety セルから何ピクセルずらすか（Y軸) default null
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->setImage('img/hoge.gif', 1, 1, 0);
+$PhpSpreadsheetWrapper->setImage('img/hoge.gif', 1, 1, 0);
 
 /**
 * cellMerge
@@ -92,7 +92,7 @@ $PhpShreadsheetWrapper->setImage('img/hoge.gif', 1, 1, 0);
 * @param integer $sheetNo シート番号
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->cellMerge(1, 1, 1, 3, 0);
+$PhpSpreadsheetWrapper->cellMerge(1, 1, 1, 3, 0);
 
 /**
 * styleCopy
@@ -105,7 +105,7 @@ $PhpShreadsheetWrapper->cellMerge(1, 1, 1, 3, 0);
 * @param integer $refSheet 参照シート
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->cellMerge(1, 1, 0, 1, 1, 1);
+$PhpSpreadsheetWrapper->cellMerge(1, 1, 0, 1, 1, 1);
 
 /**
 * setStyle
@@ -219,7 +219,7 @@ $style = [
     */
     'bgpattern' => 'lighthorizontal',
 ];
-$PhpShreadsheetWrapper->setStyle(3, 1, 0, $style);
+$PhpSpreadsheetWrapper->setStyle(3, 1, 0, $style);
 
 /**
 * createSheet
@@ -227,7 +227,7 @@ $PhpShreadsheetWrapper->setStyle(3, 1, 0, $style);
 * @param text $name
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->createSheet('hoge');
+$PhpSpreadsheetWrapper->createSheet('hoge');
 
 /**
 * deleteSheet
@@ -235,7 +235,7 @@ $PhpShreadsheetWrapper->createSheet('hoge');
 * @param integer $sheetNo
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->deleteSheet(4);
+$PhpSpreadsheetWrapper->deleteSheet(4);
 
 /**
 * copySheet
@@ -245,7 +245,7 @@ $PhpShreadsheetWrapper->deleteSheet(4);
 * @param text $name
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->copySheet(0, null, 'copy sheet');
+$PhpSpreadsheetWrapper->copySheet(0, null, 'copy sheet');
 
 /**
 * renameSheet
@@ -254,7 +254,7 @@ $PhpShreadsheetWrapper->copySheet(0, null, 'copy sheet');
 * @param text $name
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->renameSheet(0, 'rename');
+$PhpSpreadsheetWrapper->renameSheet(0, 'rename');
 
 /**
 * write
@@ -262,7 +262,7 @@ $PhpShreadsheetWrapper->renameSheet(0, 'rename');
 * @param text $file 書き込み先のファイルパス
 * @author hagiwara
 */
-$PhpShreadsheetWrapper->write('php://output');
+$PhpSpreadsheetWrapper->write('php://output');
 ```
 
 
