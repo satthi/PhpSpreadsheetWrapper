@@ -19,7 +19,7 @@
 		"phpoffice/phpspreadsheet": "*"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "*"
+		 "phpunit/phpunit": "<=7.4.1"
 	},
 	"autoload": {
 		"psr-4": {
