@@ -144,6 +144,25 @@ class PhpSpreadsheetWrapper
     }
 
     /**
+    * getPlainVal
+    * 値の取得
+    * @param integer $col 行
+    * @param integer $row 列
+    * @param integer $sheetNo シート番号
+    * @author hagiwara
+    */
+    public function getPlainVal($col, $row, $sheetNo = 0)
+    {
+        $val = $this->getVal($col, $row, $sheetNo);
+
+        // RichTextが来たときにplainのtextを返すため
+        if (is_object($val) && is_a($val, '\PhpOffice\PhpSpreadsheet\RichText\RichText')) {
+            $val = $val-> getPlainText();
+        }
+        return $val;
+    }
+
+    /**
     * setImage
     * 画像のセット
     * @param string $img 画像のファイルパス
