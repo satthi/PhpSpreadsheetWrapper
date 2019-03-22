@@ -114,13 +114,18 @@ class PhpSpreadsheetWrapper
     * @param integer $refCol 参照セル行
     * @param integer $refRow 参照セル列
     * @param integer $refSheet 参照シート
+    * @param string $dataType 書き込みするデータの方を強制的に指定
     * @author hagiwara
     */
-    public function setVal($value, $col, $row, $sheetNo = 0, $refCol = null, $refRow = null, $refSheet = 0)
+    public function setVal($value, $col, $row, $sheetNo = 0, $refCol = null, $refRow = null, $refSheet = 0, $dataType = null)
     {
         $cellInfo = $this->cellInfo($col, $row);
         //値のセット
-        $this->getSheet($sheetNo)->setCellValue($cellInfo, $value);
+        if (is_null($dataType)) {
+            $this->getSheet($sheetNo)->setCellValue($cellInfo, $value);
+        } else {
+            $this->getSheet($sheetNo)->getCell($cellInfo)->setValueExplicit($value, $dataType);
+        }
 
         //参照セルの指定がある場合には書式をコピーする
         if (!is_null($refCol) && !is_null($refRow)) {
