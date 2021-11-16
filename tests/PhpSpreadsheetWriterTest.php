@@ -19,7 +19,7 @@ class PhpSpreadsheetWriterTest extends TestCase
 
     private $__tmpDir;
     private $__exportFile;
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         //ディレクトリの作成
@@ -40,7 +40,7 @@ class PhpSpreadsheetWriterTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
     }
