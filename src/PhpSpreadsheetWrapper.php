@@ -674,13 +674,20 @@ class PhpSpreadsheetWrapper
     * @param string $file 書き込み先のファイルパス
     * @author hagiwara
     */
-    public function write($file, $type = 'Xlsx')
+    public function write($file, $type = 'Xlsx', $isCalcFormulas = true)
     {
         //書き込み前に削除シートを削除する
         foreach ($this->__deleteSheetList as $deleteSheet) {
             $this->__phpexcel->removeSheetByIndex($deleteSheet);
         }
         $writer = IOFactory::createWriter($this->__phpexcel, $type);
+
+        // 出力時に再計算を実施しない
+        if (!$isCalcFormulas) {
+            $writer->setPreCalculateFormulas(false);
+            $this->__phpexcel->getCalculationEngine()->disableCalculationCache();
+        }
+
         $writer->save($file);
     }
 
