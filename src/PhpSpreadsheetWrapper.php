@@ -556,7 +556,7 @@ class PhpSpreadsheetWrapper
     private function getBorderType($type)
     {
         $type_list = self::$__borderType;
-        if (array_key_exists($type, $type_list)) {
+        if (!is_null($type) && array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
         return Border::BORDER_NONE;
@@ -571,7 +571,7 @@ class PhpSpreadsheetWrapper
     private function getAlignHolizonalType($type)
     {
         $type_list = self::$__alignHolizonalType;
-        if (array_key_exists($type, $type_list)) {
+        if (!is_null($type) && array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
         return Alignment::HORIZONTAL_GENERAL;
@@ -586,7 +586,7 @@ class PhpSpreadsheetWrapper
     private function getAlignVerticalType($type)
     {
         $type_list = self::$__alignVerticalType;
-        if (array_key_exists($type, $type_list)) {
+        if (!is_null($type) && array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
         return null;
@@ -601,7 +601,7 @@ class PhpSpreadsheetWrapper
     private function getFillType($type)
     {
         $type_list = self::$__fillType;
-        if (array_key_exists($type, $type_list)) {
+        if (!is_null($type) && array_key_exists($type, $type_list)) {
             return $type_list[$type];
         }
         return Fill::FILL_SOLID;
